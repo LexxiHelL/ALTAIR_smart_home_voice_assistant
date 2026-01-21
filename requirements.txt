@@ -1,0 +1,15 @@
+# Основные зависимости для ML
+numpy>=1.26.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+jupyter>=1.0.0
+matplotlib>=3.7.0
+
+# Зависимости для работы с аудио
+sounddevice>=0.4.6
+scipy>=1.11.0
+
+# Зависимости для распознавания речи
+vosk>=0.3.45
+
+# pip install -r requirements.txt
