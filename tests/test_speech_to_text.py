@@ -13,15 +13,21 @@ TEST_FILE = os.path.join(TEST_DIR, f"voice_command_{datetime.now().strftime('%Y%
 
 # Запишем файл с микрофона с автостопом по тишине (макс. 10 сек, стоп при паузе 1 сек)
 def test_record_voice_and_stt():
+    """Тестирование голосового ввода"""
     record_audio(TEST_FILE, max_duration=10.0, pause_threshold=1.0)
     stt = SpeechToText(backend="vosk", model_path="models/asr/vosk/vosk-model-small-ru-0.22")
     result = stt.transcribe(TEST_FILE)
-    print(f"Распознанный текст: {result['text']}")
+    process_text_command(result['text'])
+
+def process_text_command(text: str):
+    """Обработка текстовой команды (можно вызывать напрямую)"""
+    print(f"Обрабатываю текст: {text}")
+    
     from src.utils.text_segments import segment_command
     from src.utils.location_extractor import resolve_location_reference
     from src.utils.task_extractor import extract_task
     
-    segments = segment_command(result['text'])
+    segments = segment_command(text)
     resolved_commands = resolve_location_reference(segments)
     
     print("\nСегменты команды с извлеченными данными:")
@@ -32,6 +38,16 @@ def test_record_voice_and_stt():
         object_info = f" [Объект: {task['object']}]" if task['object'] else ""
         value_info = f" [Значение: {task['value']}]" if task['value'] else ""
         print(f"  {i}. {cmd_info['command']}{room_info}{action_info}{object_info}{value_info}")
+    from src.commands.command_executor import CommandExecutor
+    # Вызов обработчика устройств
+    CommandExecutor.execute_commands(resolved_commands)
 
 if __name__ == "__main__":
-    test_record_voice_and_stt()
+    import sys
+    if len(sys.argv) > 1:
+        # Если передан аргумент - обрабатываем как текстовую команду
+        process_text_command(sys.argv[1])
+    else:
+        # Иначе используем голосовой ввод
+        test_record_voice_and_stt()
+

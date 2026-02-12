@@ -8,7 +8,7 @@ import queue
 import threading
 
 WAKE_WORDS = ["карма", "карму", "карме", "кармой", "кармы", "кармой", "кармою"]
-STOP_WORDS = ["стоп", "останови", "отмена", "отменить", "выход"]
+STOP_WORDS = ["стоп", "останови", "отмена", "отменить", "выход", "стоп сучка"]
 
 class WakeWordDetector:
     def __init__(self, stt_model_path: str = "models/asr/vosk/vosk-model-small-ru-0.22", 

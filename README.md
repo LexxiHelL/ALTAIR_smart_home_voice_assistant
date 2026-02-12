@@ -5,7 +5,6 @@
 ## Структура проекта
 
 - `data/` — данные
-- `notebooks/` — Jupyter ноутбуки
 - `src/` — исходный код
   - `data/`, `features/`, `models/`, `train/`, `predict/`, `utils/`
 - `tests/` — автоматические тесты
